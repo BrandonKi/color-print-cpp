@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 #ifdef _WIN32
     #include <windows.h>
@@ -7,12 +8,41 @@
     #endif
 #endif
 
+#ifndef DISABLE_GLOBAL_FN
+    inline static void print(const std::string& str){
+        std::cout << str;
+    }
+
+    inline static void print(const std::string&& str){
+        std::cout << str;
+    }
+
+    inline static void println(const std::string& str){
+        std::cout << str << '\n';
+    }
+
+    inline static void println(const std::string&& str){
+        std::cout << str << '\n';
+    }
+#endif
+
 class pretty_log{
 
     private:
         pretty_log();
 
     public:
+
+        #ifdef DISABLE_GLOBAL_FN
+            inline static void print(std::string& str){
+                std::cout << str;
+            }
+
+            inline static void println(std::string& str){
+                std::cout << str << '\n';
+            }
+        #endif
+
         inline static std::string F_BLACK(std::string& str){
             return std::move("\033[1;30m" + str + "\033[0m");
         }
@@ -56,4 +86,4 @@ class pretty_log{
         inline static std::string F_PINK(std::string& str){
             return std::move("\033[1;35m" + str + "\033[0m");
         }
-}
+};
