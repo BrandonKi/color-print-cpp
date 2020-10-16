@@ -65,6 +65,9 @@ namespace pLog{
     static const std::string _pLog_EMPTY_STRING_CONST_ = "";
     static const std::string _pLog_preamble_ = "\033[";
 
+    // Some macros share values with others
+    // this is to give them more common names
+
     #ifdef PREFIX_MACROS
     #define PL_CLEAR "\033[0m"
     #define PL_BOLD "1;"
