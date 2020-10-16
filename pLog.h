@@ -16,19 +16,16 @@ namespace pLog{
     static const std::string _pLog_preamble_ = "\033[";
 
     #ifdef PREFIX_MACROS
-    #define PL_CLEAR "\033[0m"
-    #define PL_BOLD "1;"
-    #define PL_UNDERLINE "4;"
-    #define PL_BLACK "30;"
-    #define PL_RED "31;"
-    #define PL_BLUE "32;"
+ 
     #else
     #define CLEAR "\033[0m"
     #define BOLD "1;"
     #define UNDERLINE "4;"
     #define BLACK "30;"
     #define RED "31;"
-    #define BLUE "32;"
+    #define GREEN "32;"
+    #define YELLOW "33;"
+    #define BLUE "34;"
     #endif
 
     /**
@@ -209,43 +206,4 @@ namespace pLog{
         println(var1, fstring(var2...));
     }
     
-    inline std::string black(std::string& str){
-        return std::move("\033[30m" + str + "\033[0m");
-    }
-
-    inline std::string F_RED(std::string&& str){
-        return std::move("\033[1;31m" + str + "\033[0m");
-    }
-
-    inline std::string F_DULL_RED(std::string& str){
-        return std::move("\033[31m" + str + "\033[0m");
-    }
-
-    inline std::string F_GREEN(std::string& str){
-        return std::move("\033[1;32m" + str + "\033[0m");
-    }
-
-    inline std::string F_DULL_GREEN(std::string& str){
-        return std::move("\033[32m" + str + "\033[0m");
-    }
-
-    inline std::string F_YELLOW(std::string& str){
-        return std::move("\033[1;33m" + str + "\033[0m");
-    }
-
-    inline std::string F_DULL_YELLOW(std::string& str){
-        return std::move("\033[33m" + str + "\033[0m");
-    }
-
-    inline std::string F_BLUE(std::string& str){
-        return std::move("\033[1;34m" + str + "\033[0m");
-    }
-
-    inline std::string F_DULL_BLUE(std::string& str){
-        return std::move("\033[34m" + str + "\033[0m");
-    }
-
-    inline std::string F_PINK(std::string& str){
-        return std::move("\033[1;35m" + str + "\033[0m");
-    }
 }
