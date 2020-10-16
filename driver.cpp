@@ -7,10 +7,10 @@ int main(int argc, char* argv[]){
 
     init_pLog();
 
-    print("test", fstring(UNDERLINE, BOLD, RED));
+    print(fmt("test", UNDERLINE, BOLD, RED) + " " + fmt("test", BLUE));
 
     println();
 
-    print(wrap("test", RED) + " " + wrap("test2", fstring(RED, BOLD)));
-    
+    print("test", BOLD, RED);
+
 }
