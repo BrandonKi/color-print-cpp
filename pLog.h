@@ -4,6 +4,8 @@
  * @brief single header library for printing text to the 
  * console with the specified format (color, underline, bold, etc.)
  * 
+ * NOT ALL FEATURES ARE SUPPORTED BY ALL TERMINALS
+ * 
  * @example 
  * 
  * // Call init_pLog before using any functions. 
@@ -68,13 +70,52 @@ namespace pLog{
     #else
     #define CLEAR "\033[0m"
     #define BOLD "1;"
+    #define FAINT "2;"
+    #define ITALICIZE "3;"
     #define UNDERLINE "4;"
+    #define SLOW_BLINK "5;"
+    #define FAST_BLINK "6;"
+    #define REVERSE "7;"
+    #define CONCEAL "8;"
+    #define STRIKETHROUGH "9;"
+    #define DEFAULT_FONT "10;"
+    #define ALT_FONT_1 "11;"
+    #define ALT_FONT_2 "12;"
+    #define ALT_FONT_3 "13;"
+    #define ALT_FONT_4 "14;"
+    #define ALT_FONT_5 "15;"
+    #define ALT_FONT_6 "16;"
+    #define ALT_FONT_7 "17;"
+    #define ALT_FONT_8 "18;"
+    #define ALT_FONT_9 "19;"
+    #define FRAKTUR "20;"
+
     #define BLACK "30;"
     #define RED "31;"
     #define GREEN "32;"
     #define YELLOW "33;"
     #define BLUE "34;"
     #define PINK "35;"
+    #define MAGENTA "35;"
+    #define CYAN "36;"
+    #define WHITE "37"
+
+    #define FRAME "51;"
+    #define ENCIRCLE "52;"
+    #define OVERLINE "53;"
+
+    #define BRIGHT_BLACK "90;"
+    #define GRAY "90;"
+    #define GREY "90;"
+    #define BRIGHT_RED "91;"
+    #define BRIGHT_GREEN "92;"
+    #define BRIGHT_YELLOW "93;"
+    #define BRIGHT_BLUE "94;"
+    #define BRIGHT_PINK "95;"
+    #define BRIGHT_MAGENTA "95;"
+    #define BRIGHT_CYAN "96;"
+    #define BRIGHT_WHITE "97;"
+
     #endif
 
     /**
