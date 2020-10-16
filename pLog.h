@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <cstdarg>
 
 #ifdef _WIN32
     #include <windows.h>
@@ -11,8 +12,14 @@
 
 namespace pLog{
 
+    static const std::string _pLog_EMPTY_STRING_CONST_ = "";
+    static const std::string _pLog_preamble_ = "\033[";
+
     #define CLEAR "\033[0m"
-    #define RED "30m"
+    #define BOLD "1;"
+    #define UNDERLINE "4;"
+    #define BLACK "30;"
+    #define RED "31;"
 
     /**
      * @brief Initializes pLog. This is mostly for windows platforms but should be called anyway.
@@ -43,7 +50,23 @@ namespace pLog{
         std::cout << str;
     }
 
-    inline void println(const std::string& str){
+    inline void print(const std::string& str, const std::string& color){
+        if(color == _pLog_EMPTY_STRING_CONST_)
+            std::cout << str;
+        else{
+            std::cout << _pLog_preamble_ << color.substr(0,color.length()-1) << 'm' << str << CLEAR;
+        }
+    }
+
+    inline void print(const std::string&& str, const std::string& color){
+        if(color == _pLog_EMPTY_STRING_CONST_)
+            std::cout << str;
+        else{
+            std::cout << _pLog_preamble_ << color.substr(0,color.length()-1) << 'm' << str << CLEAR;
+        }
+    }
+
+    inline void println(const std::string& str = ""){
         std::cout << str << '\n';
     }
 
@@ -51,11 +74,39 @@ namespace pLog{
         std::cout << str << '\n';
     }
 
-    inline std::string F_BLACK(std::string& str){
-        return std::move("\033[1;30m" + str + "\033[0m");
+    inline void println(const std::string& str, const std::string& color){
+        if(color == _pLog_EMPTY_STRING_CONST_)
+            std::cout << str;
+        else{
+            std::cout << _pLog_preamble_ << color.substr(0,color.length()-1) << 'm' << str << CLEAR;
+        }
     }
 
-    inline std::string F_DULL_BLACK(std::string& str){
+    inline void println(const std::string&& str, const std::string& color){
+        if(color == _pLog_EMPTY_STRING_CONST_)
+            std::cout << str << '\n';
+        else{
+            std::cout << _pLog_preamble_ << color.substr(0,color.length()-1) << 'm' << str << CLEAR << '\n';
+        }
+    }
+
+    std::string wrap(const std::string&& str, const std::string& color){
+        return _pLog_preamble_ + color.substr(0,color.length()-1) + 'm' + str + CLEAR;
+    }
+
+
+    std::string fstring() 
+    { 
+        return std::string("");
+    }
+
+    template <typename T, typename... Types> 
+    std::string fstring(T var1, Types... var2) 
+    {     
+        return std::string(var1) + fstring(var2...) ; 
+    }
+
+    inline std::string black(std::string& str){
         return std::move("\033[30m" + str + "\033[0m");
     }
 
