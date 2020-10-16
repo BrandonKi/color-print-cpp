@@ -1,2 +1,2 @@
 # pretty-log-cpp
-lightweight cross-platform logging with colors!
+cross-platform single header library to print colors to the console!
