@@ -15,12 +15,21 @@ namespace pLog{
     static const std::string _pLog_EMPTY_STRING_CONST_ = "";
     static const std::string _pLog_preamble_ = "\033[";
 
+    #ifdef PREFIX_MACROS
+    #define PL_CLEAR "\033[0m"
+    #define PL_BOLD "1;"
+    #define PL_UNDERLINE "4;"
+    #define PL_BLACK "30;"
+    #define PL_RED "31;"
+    #define PL_BLUE "32;"
+    #else
     #define CLEAR "\033[0m"
     #define BOLD "1;"
     #define UNDERLINE "4;"
     #define BLACK "30;"
     #define RED "31;"
     #define BLUE "32;"
+    #endif
 
     /**
      * @brief Initializes pLog. This is mostly for windows platforms but should be called anyway.
@@ -43,50 +52,100 @@ namespace pLog{
         return true;
     }
 
+    /**
+     * @brief base case function for unpacking var args
+     * 
+     * @return an empty string
+     */
     std::string fstring() 
     { 
         return std::string("");
     }
 
+    /**
+     * @brief helper function for unpacking var args
+     *        this function takes all var args which are assumed to be valid ansii args 
+     *        and combines them into a single string 
+     * 
+     * @param var1 first arg in var args
+     * @param var2 var args
+     * @return all args combined into a single string 
+     */
     template <typename T, typename... Types> 
     std::string fstring(T var1, Types... var2) 
     {     
         return std::string(var1) + fstring(var2...) ; 
     }
 
+    /**
+     * @brief function called to correctly format a string with all args given
+     *        for ex. fmt("test", UNDERLINE, RED, ...)
+     * 
+     * @param str base string to add ansii escape args onto
+     * @param var2 any amount of ansii escape args
+     * @return base string with ansii escape args added onto it
+     */
     template <typename T, typename... Types> 
     std::string fmt(T str, Types... var2){
         std::string color = fstring(var2...);
         return _pLog_preamble_ + color.substr(0,color.length()-1) + 'm' + str + CLEAR;
     }
     
+    /**
+     * @brief wrapper on print that unpacks var args and formats them automatically
+     * 
+     * @param var1 base string
+     * @param var2 list of ansii escape args
+     */
     template <typename T, typename... Types> 
     void print(T var1, Types... var2) 
     { 
         print(var1, fstring(var2...));
     } 
 
+    /**
+     * @brief print string to the console
+     * 
+     * @param str string to print
+     */
     inline void print(const std::string& str){
         std::cout << str;
     }
 
+    /**
+     * @brief print string to console
+     * 
+     * @param str string to print
+     */
     inline void print(const std::string&& str){
         std::cout << str;
     }
 
-    inline void print(const std::string& str, const std::string& color){
-        if(color == _pLog_EMPTY_STRING_CONST_)
+    /**
+     * @brief print string to the console with specified format as a string
+     * 
+     * @param str string to print
+     * @param fmt format to use
+     */
+    inline void print(const std::string& str, const std::string& fmt){
+        if(fmt == _pLog_EMPTY_STRING_CONST_)
             std::cout << str;
         else{
-            std::cout << _pLog_preamble_ << color.substr(0,color.length()-1) << 'm' << str << CLEAR;
+            std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR;
         }
     }
 
-    inline void print(const std::string&& str, const std::string& color){
-        if(color == _pLog_EMPTY_STRING_CONST_)
+    /**
+     * @brief print string to the console with specified format as a string
+     * 
+     * @param str string to print
+     * @param fmt format to use
+     */
+    inline void print(const std::string&& str, const std::string& fmt){
+        if(fmt == _pLog_EMPTY_STRING_CONST_)
             std::cout << str;
         else{
-            std::cout << _pLog_preamble_ << color.substr(0,color.length()-1) << 'm' << str << CLEAR;
+            std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR;
         }
     }
 
@@ -104,19 +163,19 @@ namespace pLog{
         std::cout << str << '\n';
     }
 
-    inline void println(const std::string& str, const std::string& color){
-        if(color == _pLog_EMPTY_STRING_CONST_)
+    inline void println(const std::string& str, const std::string& fmt){
+        if(fmt == _pLog_EMPTY_STRING_CONST_)
             std::cout << str;
         else{
-            std::cout << _pLog_preamble_ << color.substr(0,color.length()-1) << 'm' << str << CLEAR;
+            std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR;
         }
     }
 
-    inline void println(const std::string&& str, const std::string& color){
-        if(color == _pLog_EMPTY_STRING_CONST_)
+    inline void println(const std::string&& str, const std::string& fmt){
+        if(fmt == _pLog_EMPTY_STRING_CONST_)
             std::cout << str << '\n';
         else{
-            std::cout << _pLog_preamble_ << color.substr(0,color.length()-1) << 'm' << str << CLEAR << '\n';
+            std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR << '\n';
         }
     }
 
