@@ -66,7 +66,7 @@ namespace pLog{
     static const std::string _pLog_preamble_ = "\033[";
 
     // Some macros share values with others
-    // this is to give them more common names
+    // this is to give them more common names for ex. "gray/grey" instead of "bright black"
 
     #ifdef PREFIX_MACROS
     #define PL_CLEAR            "\033[0m"
@@ -272,7 +272,7 @@ namespace pLog{
     }
 
     /**
-     * @brief print string to console
+     * @overload
      * 
      * @param str string to print
      */
@@ -427,8 +427,7 @@ namespace pLog{
      * @param var2 list of ansii escape args
      */
     template <typename T, typename... Types> 
-    void println(T var1, Types... var2) 
-    { 
+    void println(T var1, Types... var2){ 
         println((std::string)var1, (std::string)fstring(var2...));
     }
     
