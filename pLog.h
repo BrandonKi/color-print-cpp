@@ -90,6 +90,12 @@ namespace pLog{
         }
     }
 
+    template <typename T, typename... Types> 
+    void println(T var1, Types... var2) 
+    { 
+        println(var1, fstring(var2...));
+    } 
+
     inline void println(const std::string& str = ""){
         std::cout << str << '\n';
     }
