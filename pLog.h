@@ -1,6 +1,54 @@
+/**
+ * @file plog.h
+ * @author Brandon Kirincich
+ * @brief single header library for printing text to the 
+ * console with the specified format (color, underline, bold, etc.)
+ * 
+ * @example 
+ * 
+ * // Call init_pLog before using any functions. 
+ * // This is only needed on Windows, but should be called just in case.
+ * init_pLog();
+ * 
+ * println("test", UNDERLINE, BOLD, RED);
+ * 
+ * println(fmt("I'm blue", BLUE) + " " + fmt("I'm red and bold", RED, BOLD));
+ * 
+ * println("r,g,b values are also supported! They can be bold, underlined, etc.", rgb(255, 100, 0), BOLD);
+ * 
+ * println("to set background color pass a color to the bg() function.", bg(RED));
+ * 
+ * print("rgb can also be passed to bg", bg(rgb(255, 100, 0)));
+ * 
+ * @version 0.1
+ * @date 2020-10-16
+ * 
+ * MIT License
+ *
+ * @copyright (c) 2020 Brandon Kirincich
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ */
 #include <string>
 #include <iostream>
-#include <cstdarg>
+#include <cstdint>
 
 #ifdef _WIN32
     #include <windows.h>
@@ -26,6 +74,7 @@ namespace pLog{
     #define GREEN "32;"
     #define YELLOW "33;"
     #define BLUE "34;"
+    #define PINK "35;"
     #endif
 
     /**
@@ -47,6 +96,43 @@ namespace pLog{
             return true;
         #endif
         return true;
+    }
+
+    /**
+     * @brief return a string representing rgb value
+     * 
+     * @param r value for red (0 - 255)
+     * @param g value for green (0 - 255)
+     * @param b value for blue (0 - 255)
+     * @return formatted string representing rgb value
+     */
+    std::string rgb(uint8_t r, uint8_t g, uint8_t b){
+        return "38;2;" + std::to_string(+r) + ';' + std::to_string(+g) + ';' + std::to_string(+b) + ';';
+    }
+
+    /**
+     * @brief return string representing a color to set background to
+     * 
+     * @param color color to set background to can 
+     * be a predefined color macro or rgb() string
+     * @return formatted string representing background color
+     */
+    std::string bg(std::string color){
+        if(color.length() > 3)
+            return "48;2;" + color.substr(5);   // if color is in rgb() format
+        return std::to_string(std::stoi(color) + 10) + ';';
+    }
+
+    /**
+     * @brief return string representing a color to set background to from r, g, b values
+     * 
+     * @param r value for red (0 - 255)
+     * @param g value for green (0 - 255)
+     * @param b value for blue (0 - 255)
+     * @return formatted string representing background color
+     */
+    std::string bg(uint8_t r, uint8_t g, uint8_t b){
+        return "48;2;" + std::to_string(+r) + ';' + std::to_string(+g) + ';' + std::to_string(+b) + ';';
     }
 
     /**
@@ -142,10 +228,7 @@ namespace pLog{
      */
     template <typename T, typename... Types> 
     void print(T var1, Types... var2){
-        std::string str = var1;
-        std::string f_string = fstring(var2...);
-        // std::cout << str << " " << f_string;
-        print(str, f_string);
+        print((std::string)var1, (std::string)fstring(var2...));
     }
 
     /**
@@ -203,7 +286,7 @@ namespace pLog{
     template <typename T, typename... Types> 
     void println(T var1, Types... var2) 
     { 
-        println(var1, fstring(var2...));
+        println((std::string)var1, (std::string)fstring(var2...));
     }
     
 }
