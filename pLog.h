@@ -57,29 +57,27 @@ namespace pLog{
      * 
      * @return an empty string
      */
-    std::string fstring() 
-    { 
+    std::string fstring(){ 
         return std::string("");
     }
 
     /**
      * @brief helper function for unpacking var args
-     *        this function takes all var args which are assumed to be valid ansii args 
-     *        and combines them into a single string 
+     * this function takes all var args which are assumed to be valid ansii args 
+     * and combines them into a single string 
      * 
      * @param var1 first arg in var args
      * @param var2 var args
      * @return all args combined into a single string 
      */
     template <typename T, typename... Types> 
-    std::string fstring(T var1, Types... var2) 
-    {     
+    std::string fstring(T var1, Types... var2){     
         return std::string(var1) + fstring(var2...) ; 
     }
 
     /**
      * @brief function called to correctly format a string with all args given
-     *        for ex. fmt("test", UNDERLINE, RED, ...)
+     * for ex. fmt("test", UNDERLINE, RED, ...)
      * 
      * @param str base string to add ansii escape args onto
      * @param var2 any amount of ansii escape args
@@ -91,17 +89,6 @@ namespace pLog{
         return _pLog_preamble_ + color.substr(0,color.length()-1) + 'm' + str + CLEAR;
     }
     
-    /**
-     * @brief wrapper on print that unpacks var args and formats them automatically
-     * 
-     * @param var1 base string
-     * @param var2 list of ansii escape args
-     */
-    template <typename T, typename... Types> 
-    void print(T var1, Types... var2) 
-    { 
-        print(var1, fstring(var2...));
-    } 
 
     /**
      * @brief print string to the console
@@ -120,6 +107,7 @@ namespace pLog{
     inline void print(const std::string&& str){
         std::cout << str;
     }
+
 
     /**
      * @brief print string to the console with specified format as a string
@@ -149,20 +137,44 @@ namespace pLog{
         }
     }
 
+    /**
+     * @brief wrapper of print() that unpacks var args and formats them automatically
+     * 
+     * @param var1 base string
+     * @param var2 list of ansii escape args
+     */
     template <typename T, typename... Types> 
-    void println(T var1, Types... var2) 
-    { 
-        println(var1, fstring(var2...));
-    } 
+    void print(T var1, Types... var2){
+        std::string str = var1;
+        std::string f_string = fstring(var2...);
+        // std::cout << str << " " << f_string;
+        print(str, f_string);
+    }
 
+    /**
+     * @brief print a string to the console with a newline at the end
+     * 
+     * @param str string to print
+     */
     inline void println(const std::string& str = ""){
         std::cout << str << '\n';
     }
 
+    /**
+     * @brief print a string to the console with a newline at the end
+     * 
+     * @param str string to print
+     */
     inline void println(const std::string&& str){
         std::cout << str << '\n';
     }
 
+    /**
+     * @brief print a string with the specified format 
+     * to the console with a newline at the end
+     * 
+     * @param str string to print
+     */
     inline void println(const std::string& str, const std::string& fmt){
         if(fmt == _pLog_EMPTY_STRING_CONST_)
             std::cout << str;
@@ -171,6 +183,12 @@ namespace pLog{
         }
     }
 
+    /**
+     * @brief print a string with the specified format 
+     * to the console with a newline at the end
+     * 
+     * @param str string to print
+     */
     inline void println(const std::string&& str, const std::string& fmt){
         if(fmt == _pLog_EMPTY_STRING_CONST_)
             std::cout << str << '\n';
@@ -179,10 +197,17 @@ namespace pLog{
         }
     }
 
-
-
-
-
+    /**
+     * @brief wrapper of println() that unpacks var args and formats them automatically
+     * 
+     * @param var1 base string
+     * @param var2 list of ansii escape args
+     */
+    template <typename T, typename... Types> 
+    void println(T var1, Types... var2) 
+    { 
+        println(var1, fstring(var2...));
+    }
     
     inline std::string black(std::string& str){
         return std::move("\033[30m" + str + "\033[0m");
