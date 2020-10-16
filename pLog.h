@@ -22,6 +22,8 @@
  * 
  * print("rgb can also be passed to bg", bg(rgb(255, 100, 0)));
  * 
+ * print("this also work", bg(255, 100, 0));
+ * 
  * @version 0.1
  * @date 2020-10-16
  * 
