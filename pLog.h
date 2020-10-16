@@ -66,7 +66,53 @@ namespace pLog{
     static const std::string _pLog_preamble_ = "\033[";
 
     #ifdef PREFIX_MACROS
- 
+    #define PL_CLEAR "\033[0m"
+    #define PL_BOLD "1;"
+    #define PL_FAINT "2;"
+    #define PL_ITALICIZE "3;"
+    #define PL_UNDERLINE "4;"
+    #define PL_SLOW_BLINK "5;"
+    #define PL_FAST_BLINK "6;"
+    #define PL_REVERSE "7;"
+    #define PL_CONCEAL "8;"
+    #define PL_STRIKETHROUGH "9;"
+    #define PL_DEFAULT_FONT "10;"
+    #define PL_ALT_FONT_1 "11;"
+    #define PL_ALT_FONT_2 "12;"
+    #define PL_ALT_FONT_3 "13;"
+    #define PL_ALT_FONT_4 "14;"
+    #define PL_ALT_FONT_5 "15;"
+    #define PL_ALT_FONT_6 "16;"
+    #define PL_ALT_FONT_7 "17;"
+    #define PL_ALT_FONT_8 "18;"
+    #define PL_ALT_FONT_9 "19;"
+    #define PL_FRAKTUR "20;"
+
+    #define PL_BLACK "30;"
+    #define PL_RED "31;"
+    #define PL_GREEN "32;"
+    #define PL_YELLOW "33;"
+    #define PL_BLUE "34;"
+    #define PL_PINK "35;"
+    #define PL_MAGENTA "35;"
+    #define PL_CYAN "36;"
+    #define PL_WHITE "37"
+
+    #define PL_FRAME "51;"
+    #define PL_ENCIRCLE "52;"
+    #define PL_OVERLINE "53;"
+
+    #define PL_BRIGHT_BLACK "90;"
+    #define PL_GRAY "90;"
+    #define PL_GREY "90;"
+    #define PL_BRIGHT_RED "91;"
+    #define PL_BRIGHT_GREEN "92;"
+    #define PL_BRIGHT_YELLOW "93;"
+    #define PL_BRIGHT_BLUE "94;"
+    #define PL_BRIGHT_PINK "95;"
+    #define PL_BRIGHT_MAGENTA "95;"
+    #define PL_BRIGHT_CYAN "96;"
+    #define PL_BRIGHT_WHITE "97;"
     #else
     #define CLEAR "\033[0m"
     #define BOLD "1;"
@@ -115,7 +161,6 @@ namespace pLog{
     #define BRIGHT_MAGENTA "95;"
     #define BRIGHT_CYAN "96;"
     #define BRIGHT_WHITE "97;"
-
     #endif
 
     /**
@@ -228,7 +273,7 @@ namespace pLog{
      * 
      * @param str string to print
      */
-    inline void print(const std::string&& str){
+    inline void print(const std::string&& str = ""){
         std::cout << str;
     }
 
