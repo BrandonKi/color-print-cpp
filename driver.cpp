@@ -1,5 +1,16 @@
-#include "pretty_log.h"
+#include "pLog.h"
 
-int main(int argc, int* argv[]){
+using namespace pLog;
 
+
+int main(int argc, char* argv[]){
+
+    init_pLog();
+
+    print("test", fstring(UNDERLINE, BOLD, RED));
+
+    println();
+
+    print(wrap("test", RED) + " " + wrap("test2", fstring(RED, BOLD)));
+    
 }
