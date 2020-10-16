@@ -20,6 +20,7 @@ namespace pLog{
     #define UNDERLINE "4;"
     #define BLACK "30;"
     #define RED "31;"
+    #define BLUE "32;"
 
     /**
      * @brief Initializes pLog. This is mostly for windows platforms but should be called anyway.
@@ -41,6 +42,29 @@ namespace pLog{
         #endif
         return true;
     }
+
+    std::string fstring() 
+    { 
+        return std::string("");
+    }
+
+    template <typename T, typename... Types> 
+    std::string fstring(T var1, Types... var2) 
+    {     
+        return std::string(var1) + fstring(var2...) ; 
+    }
+
+    template <typename T, typename... Types> 
+    std::string fmt(T str, Types... var2){
+        std::string color = fstring(var2...);
+        return _pLog_preamble_ + color.substr(0,color.length()-1) + 'm' + str + CLEAR;
+    }
+    
+    template <typename T, typename... Types> 
+    void print(T var1, Types... var2) 
+    { 
+        print(var1, fstring(var2...));
+    } 
 
     inline void print(const std::string& str){
         std::cout << str;
@@ -90,22 +114,11 @@ namespace pLog{
         }
     }
 
-    std::string wrap(const std::string&& str, const std::string& color){
-        return _pLog_preamble_ + color.substr(0,color.length()-1) + 'm' + str + CLEAR;
-    }
 
 
-    std::string fstring() 
-    { 
-        return std::string("");
-    }
 
-    template <typename T, typename... Types> 
-    std::string fstring(T var1, Types... var2) 
-    {     
-        return std::string(var1) + fstring(var2...) ; 
-    }
 
+    
     inline std::string black(std::string& str){
         return std::move("\033[30m" + str + "\033[0m");
     }
