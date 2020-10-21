@@ -64,8 +64,8 @@
 
 namespace pLog{
 
-    static const std::string _pLog_EMPTY_STRING_CONST_ = "";
     static const std::string _pLog_preamble_ = "\033[";
+    static std::ofstream file;
 
     // Some macros share values with others
     // this is to give them more common names for ex. "gray/grey" instead of "bright black"
@@ -290,7 +290,7 @@ namespace pLog{
      * @param fmt format to use
      */
     inline void print(const std::string& str, const std::string& fmt){
-        if(fmt == _pLog_EMPTY_STRING_CONST_)
+        if(fmt == "")
             std::cout << str;
         else{
             std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR;
@@ -304,7 +304,7 @@ namespace pLog{
      * @param fmt format to use
      */
     inline void print(const std::string& str, const std::string&& fmt){
-        if(fmt == _pLog_EMPTY_STRING_CONST_)
+        if(fmt == "")
             std::cout << str;
         else{
             std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR;
@@ -318,7 +318,7 @@ namespace pLog{
      * @param fmt format to use
      */
     inline void print(const std::string&& str, const std::string& fmt){
-        if(fmt == _pLog_EMPTY_STRING_CONST_)
+        if(fmt == "")
             std::cout << str;
         else{
             std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR;
@@ -332,7 +332,7 @@ namespace pLog{
      * @param fmt format to use
      */
     inline void print(const std::string&& str, const std::string&& fmt){
-        if(fmt == _pLog_EMPTY_STRING_CONST_)
+        if(fmt == "")
             std::cout << str;
         else{
             std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR;
@@ -375,7 +375,7 @@ namespace pLog{
      * @param str string to print
      */
     inline void println(const std::string& str, const std::string& fmt){
-        if(fmt == _pLog_EMPTY_STRING_CONST_)
+        if(fmt == "")
             std::cout << str;
         else{
             std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR;
@@ -389,7 +389,7 @@ namespace pLog{
      * @param str string to print
      */
     inline void println(const std::string& str, const std::string&& fmt){
-        if(fmt == _pLog_EMPTY_STRING_CONST_)
+        if(fmt == "")
             std::cout << str;
         else{
             std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR;
@@ -402,7 +402,7 @@ namespace pLog{
      * @param str string to print
      */
     inline void println(const std::string&& str, const std::string& fmt){
-        if(fmt == _pLog_EMPTY_STRING_CONST_)
+        if(fmt == "")
             std::cout << str << '\n';
         else{
             std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR << '\n';
@@ -415,7 +415,7 @@ namespace pLog{
      * @param str string to print
      */
     inline void println(const std::string&& str, const std::string&& fmt){
-        if(fmt == _pLog_EMPTY_STRING_CONST_)
+        if(fmt == "")
             std::cout << str << '\n';
         else{
             std::cout << _pLog_preamble_ << fmt.substr(0, fmt.length()-1) << 'm' << str << CLEAR << '\n';
