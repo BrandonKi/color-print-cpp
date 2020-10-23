@@ -65,7 +65,6 @@
 namespace pLog{
 
     static const std::string _pLog_preamble_ = "\033[";
-    static std::ofstream file;
 
     // Some macros share values with others
     // this is to give them more common names for ex. "gray/grey" instead of "bright black"
