@@ -257,12 +257,12 @@ namespace pLog{
      * for ex. fmt("test", UNDERLINE, RED, ...)
      * 
      * @param str base string to add ansii escape args onto
-     * @param var2 any amount of ansii escape args
+     * @param modifiers any amount of ansii escape args
      * @return base string with ansii escape args added onto it
      */
     template <typename T, typename... Types> 
-    inline std::string fmt(T str, Types... var2){
-        std::string&& color = fstring(var2...);
+    inline std::string fmt(T str, Types... modifiers){
+        std::string&& color = fstring(modifiers...);
         if constexpr (std::is_same_v<T, std::string> || std::is_same_v<T, char>)
             return _pLog_preamble_ + color.substr(0,color.length()-1) + 'm' + str + CLEAR;
         else if constexpr(std::is_const_v<std::remove_pointer_t<T>>)
@@ -349,17 +349,17 @@ namespace pLog{
     /**
      * @brief wrapper of print() that unpacks var args and formats them automatically
      * 
-     * @param var1 base string
-     * @param var2 list of ansii escape args
+     * @param str base string
+     * @param modifiers list of ansii escape args
      */
     template <typename T, typename... Types> 
-    void print(T var1, Types... var2){
+    void print(T str, Types... modifiers){
         if constexpr (std::is_same_v<T, std::string> || std::is_same_v<T, char>)
-            print(std::string("") + var1, fstring(var2...));
+            print(std::string("") + str, fstring(modifiers...));
         else if constexpr(std::is_const_v<std::remove_pointer_t<T>>)
-            print(std::string(var1), fstring(var2...));
+            print(std::string(str), fstring(modifiers...));
         else
-            print(std::to_string(var1), fstring(var2...));
+            print(std::to_string(str), fstring(modifiers...));
     }
 
     /**
@@ -437,17 +437,17 @@ namespace pLog{
     /**
      * @brief wrapper of println() that unpacks var args and formats them automatically
      * 
-     * @param var1 base string
-     * @param var2 list of ansii escape args
+     * @param str base string
+     * @param modifiers list of ansii escape args
      */
     template <typename T, typename... Types> 
-    void println(T var1, Types... var2){ 
+    void println(T str, Types... modifiers){ 
         if constexpr (std::is_same_v<T, std::string> || std::is_same_v<T, char>)
-            println(std::string("") + var1, fstring(var2...));
+            println(std::string("") + str, fstring(modifiers...));
         else if constexpr(std::is_const_v<std::remove_pointer_t<T>>)
-            println(std::string(var1), fstring(var2...));
+            println(std::string(str), fstring(modifiers...));
         else
-            println(std::to_string(var1), fstring(var2...));
+            println(std::to_string(str), fstring(modifiers...));
     }   
 }
 #endif
