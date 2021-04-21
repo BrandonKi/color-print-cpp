@@ -68,7 +68,7 @@
 
 namespace pLog{
 
-    static const std::string _pLog_preamble_ = "\033[";
+    static const std::string _pLog_preamble_("\033[");
 
     // Some macros share values with others
     // this is to give them more common names for ex. "gray/grey" instead of "bright black"
@@ -95,7 +95,7 @@ namespace pLog{
     constexpr auto PL_ALT_FONT_8 = "18;";
     constexpr auto PL_ALT_FONT_9 = "19;";
     constexpr auto PL_FRAKTUR = "20;";
-    
+
     constexpr auto PL_BLACK = "30;";
     constexpr auto PL_RED = "31;";
     constexpr auto PL_GREEN = "32;";
@@ -105,7 +105,7 @@ namespace pLog{
     constexpr auto PL_MAGENTA = "35;";
     constexpr auto PL_CYAN = "36;";
     constexpr auto PL_WHITE = "37";
-    
+
     constexpr auto PL_FRAME = "51;";
     constexpr auto PL_ENCIRCLE = "52;";
     constexpr auto PL_OVERLINE = "53;";
@@ -173,8 +173,8 @@ namespace pLog{
 
     /**
      * @brief Initializes pLog. This is mostly for windows platforms but should be called anyway.
-     * 
-     * @return a bool representing whether or not pLog could be initialized 
+     *
+     * @return a bool representing whether or not pLog could be initialized
      */
     inline bool init_pLog(){
         #ifdef _WIN32
@@ -188,13 +188,14 @@ namespace pLog{
             if (!SetConsoleMode(hOut, dwMode))
                 return false;
             return true;
+        #else
+            return true;
         #endif
-        return true;
     }
 
     /**
      * @brief return a string representing rgb value
-     * 
+     *
      * @param r value for red (0 - 255)
      * @param g value for green (0 - 255)
      * @param b value for blue (0 - 255)
@@ -206,8 +207,8 @@ namespace pLog{
 
     /**
      * @brief return string representing a color to set background to
-     * 
-     * @param color color to set background to can 
+     *
+     * @param color color to set background to can
      * be a predefined color macro or rgb() string
      * @return formatted string representing background color
      */
@@ -219,7 +220,7 @@ namespace pLog{
 
     /**
      * @brief return string representing a color to set background to from r, g, b values
-     * 
+     *
      * @param r value for red (0 - 255)
      * @param g value for green (0 - 255)
      * @param b value for blue (0 - 255)
@@ -231,36 +232,36 @@ namespace pLog{
 
     /**
      * @brief base case function for unpacking var args
-     * 
+     *
      * @return an empty string
      */
-    inline std::string fstring(){ 
+    inline std::string fstring(){
         return std::string("");
     }
 
     /**
      * @brief Helper function for unpacking var args.
-     * This function takes all var args which are assumed to be valid ansii args 
+     * This function takes all var args which are assumed to be valid ansii args
      * and combines them into a single string .
-     * 
+     *
      * @param var1 first arg in var args
      * @param var2 var args
-     * @return all args combined into a single string 
+     * @return all args combined into a single string
      */
-    template <typename T, typename... Types> 
-    inline std::string fstring(T var1, Types... var2){     
-        return std::move(std::string(var1) + fstring(var2...)); 
+    template <typename T, typename... Types>
+    inline std::string fstring(T var1, Types... var2){
+        return std::move(std::string(var1) + fstring(var2...));
     }
 
     /**
      * @brief function called to correctly format a string with all args given
      * for ex. fmt("test", UNDERLINE, RED, ...)
-     * 
+     *
      * @param str base string to add ansii escape args onto
      * @param modifiers any amount of ansii escape args
      * @return base string with ansii escape args added onto it
      */
-    template <typename T, typename... Types> 
+    template <typename T, typename... Types>
     inline std::string fmt(T str, Types... modifiers){
         std::string&& color = fstring(modifiers...);
         if constexpr (std::is_same_v<T, std::string> || std::is_same_v<T, char>)
@@ -270,11 +271,11 @@ namespace pLog{
         else
             return _pLog_preamble_ + color.substr(0,color.length()-1) + 'm' + std::to_string(str) + CLEAR;
     }
-    
+
 
     /**
      * @brief print string to the console
-     * 
+     *
      * @param str string to print
      */
     inline void print(const std::string& str){
@@ -283,7 +284,7 @@ namespace pLog{
 
     /**
      * @overload
-     * 
+     *
      * @param str string to print
      */
     inline void print(const std::string&& str = ""){
@@ -292,7 +293,7 @@ namespace pLog{
 
     /**
      * @brief print string to the console with specified format as a string
-     * 
+     *
      * @param str string to print
      * @param fmt format to use
      */
@@ -306,7 +307,7 @@ namespace pLog{
 
     /**
      * @overload
-     * 
+     *
      * @param str string to print
      * @param fmt format to use
      */
@@ -320,7 +321,7 @@ namespace pLog{
 
     /**
      * @overload
-     * 
+     *
      * @param str string to print
      * @param fmt format to use
      */
@@ -334,7 +335,7 @@ namespace pLog{
 
     /**
      * @overload
-     * 
+     *
      * @param str string to print
      * @param fmt format to use
      */
@@ -348,11 +349,11 @@ namespace pLog{
 
     /**
      * @brief wrapper of print() that unpacks var args and formats them automatically
-     * 
+     *
      * @param str base string
      * @param modifiers list of ansii escape args
      */
-    template <typename T, typename... Types> 
+    template <typename T, typename... Types>
     void print(T str, Types... modifiers){
         if constexpr (std::is_same_v<T, std::string> || std::is_same_v<T, char>)
             print(std::string("") + str, fstring(modifiers...));
@@ -364,7 +365,7 @@ namespace pLog{
 
     /**
      * @brief print a string to the console with a newline at the end
-     * 
+     *
      * @param str string to print
      */
     inline void println(const std::string& str = ""){
@@ -373,7 +374,7 @@ namespace pLog{
 
     /**
      * @overload
-     * 
+     *
      * @param str string to print
      */
     inline void println(const std::string&& str){
@@ -381,9 +382,9 @@ namespace pLog{
     }
 
     /**
-     * @brief print a string with the specified format 
+     * @brief print a string with the specified format
      * to the console with a newline at the end
-     * 
+     *
      * @param str string to print
      */
     inline void println(const std::string& str, const std::string& fmt){
@@ -396,8 +397,8 @@ namespace pLog{
 
     /**
      * @overload
-     * 
-     * 
+     *
+     *
      * @param str string to print
      * @param fmt format to use
      */
@@ -411,7 +412,7 @@ namespace pLog{
 
     /**
      * @overload
-     * 
+     *
      * @param str string to print
      * @param fmt format to use
      */
@@ -425,7 +426,7 @@ namespace pLog{
 
     /**
      * @overload
-     * 
+     *
      * @param str string to print
      * @param fmt format to use
      */
@@ -439,18 +440,18 @@ namespace pLog{
 
     /**
      * @brief wrapper of println() that unpacks var args and formats them automatically
-     * 
+     *
      * @param str base string
      * @param modifiers list of ansii escape args
      */
-    template <typename T, typename... Types> 
-    void println(T str, Types... modifiers){ 
+    template <typename T, typename... Types>
+    void println(T str, Types... modifiers){
         if constexpr (std::is_same_v<T, std::string> || std::is_same_v<T, char>)
             println(std::string("") + str, fstring(modifiers...));
         else if constexpr(std::is_const_v<std::remove_pointer_t<T>>)
             println(std::string(str), fstring(modifiers...));
         else
             println(std::to_string(str), fstring(modifiers...));
-    }   
+    }
 }
 #endif
