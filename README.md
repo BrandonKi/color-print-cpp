@@ -9,7 +9,8 @@ define PREFIX_PLOG before including pLog.h to add a PL_ prefix to constants such
 using namespace pLog;
 
 int main(int argc, char* argv[]){
-    init_pLog();
+    if(!pLog_err)
+        println("Colors not supported :(");
     
     println(12.5, RED, BOLD);
     println(16, UNDERLINE, BOLD, RED);
