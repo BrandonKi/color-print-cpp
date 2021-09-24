@@ -1,7 +1,7 @@
 # color-print-cpp
 cross-platform single header library to print colors to the console!
 
-define PREFIX_PLOG before including pLog.h to add a PL_ prefix to constants such as RED, BLUE, etc.
+define CPRINT_PREFIX before including pLog.h to add a CP_ prefix to constants such as RED, BLUE, etc.
 
 ```cpp
 #include "pLog.h"
