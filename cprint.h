@@ -1,31 +1,34 @@
 /**
  * @file cprint.h
  * @author Brandon Kirincich
- * @brief single header library for printing text to the 
+ * @brief single header library for printing text to the
  * console with the specified format (color, underline, bold, etc.)
- * 
+ *
  * NOT ALL FEATURES ARE SUPPORTED BY ALL TERMINALS
- * 
- * @example 
- * 
- * // check the value of cprint_err to see if the current terminal/console supports virtual terminal processing
+ *
+ * @example
+ *
+ * // check the value of cprint_err to see if the current terminal/console
+ * supports virtual terminal processing
  * // This is only needed on Windows, but should be checked just in case
- * 
+ *
  * println("test", UNDERLINE, BOLD, RED);
- * 
+ *
  * println(fmt("I'm blue", BLUE) + " " + fmt("I'm red and bold", RED, BOLD));
- * 
- * println("r,g,b values are also supported! They can be bold, underlined, etc.", rgb(255, 100, 0), BOLD);
- * 
- * println("to set background color pass a color to the bg() function.", bg(RED));
- * 
+ *
+ * println("r,g,b values are also supported! They can be bold, underlined,
+ * etc.", rgb(255, 100, 0), BOLD);
+ *
+ * println("to set background color pass a color to the bg() function.",
+ * bg(RED));
+ *
  * print("rgb can also be passed to bg", bg(rgb(255, 100, 0)));
- * 
+ *
  * print("this also work", bg(255, 100, 0));
- * 
+ *
  * @version 0.1
  * @date 2020-10-16
- * 
+ *
  * MIT License
  *
  * @copyright (c) 2020 Brandon Kirincich
@@ -37,8 +40,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -47,9 +50,10 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  */
 
+// clang-format off
 #ifndef cprint_HEADER_H
 #define cprint_HEADER_H
 #include <string>
@@ -58,6 +62,8 @@
 #include <type_traits>
 
 #ifdef _WIN32
+    #define WIN32_LEAN_AND_MEAN
+    #define NOMINMAX
     #include <windows.h>
     #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
         #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
